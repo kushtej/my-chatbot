@@ -1,6 +1,6 @@
 
 
-.modal-fullscreen .modal-dialog {
+/* .modal-fullscreen .modal-dialog {
   max-width: 100%;
   margin: 2%;
   top: 0;
@@ -11,13 +11,8 @@
   display: flex;
   position: fixed;
   z-index: 100000;
-}
-
-
-
-
-
-
+  border-radius: 10px;
+} */
 
 body {
   min-height: 100vh;

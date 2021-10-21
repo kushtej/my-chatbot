@@ -49,7 +49,8 @@ Vue.component('pnrModule', {
             let modalDiscription = {
                 title : "Detail",
                 size : "xl",
-                data : record
+                data : record,
+                component : "displayPNR"
             }
 
             this.$root.$emit('showModal',modalDiscription);   
