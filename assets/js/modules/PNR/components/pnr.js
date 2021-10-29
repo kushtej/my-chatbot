@@ -60,7 +60,10 @@ Vue.component('pnrModule', {
     `
     <div class="mt-5">
         <h1 class="text-center">Patterns and Responses</h1>
-        <button type="button" class="btn btn-primary float-end m-5">+ Add</button>
+        <div class="btn-group float-end m-3">
+            <button type="button" class="btn btn-primary m-1">Customize</button>
+            <button type="button" class="btn btn-primary m-1">New PNR</button>
+        </div>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -69,7 +72,6 @@ Vue.component('pnrModule', {
                     <th scope="col">Pattern</th>
                     <th scope="col">Responses</th>
                     <th scope="col">Options</th>
-
                 </tr>
             </thead>
             <thead>
