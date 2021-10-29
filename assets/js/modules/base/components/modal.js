@@ -5,6 +5,7 @@ Vue.component('modal', {
             size : String,
             data : Object,
             component : String,
+            class : "modal-fullscreen",
         }
     },
     created() {
@@ -19,8 +20,8 @@ Vue.component('modal', {
     },
     template : `
     <div class="modalContainer">
-        <b-modal modal-class="modal-fullscreen" id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title >
-            <component :is="component" :record=data ></component>
+        <b-modal id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title >
+            <component :is="component" :data=data ></component>
         </b-modal>
     </div>`
 });

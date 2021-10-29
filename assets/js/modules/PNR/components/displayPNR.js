@@ -1,12 +1,12 @@
 Vue.component('displayPNR', {
     props:{
         header:Object,
-        record:{
+        data:{
             type : [Array, Object]
         },
     },
   template: `
     <div>
-        {{record}}
+        {{data}}
     </div>`,
 })

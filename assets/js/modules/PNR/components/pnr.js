@@ -45,14 +45,25 @@ Vue.component('pnrModule', {
 
     methods: {
         showRecord(record) {
-
             let modalDiscription = {
                 title : "Detail",
                 size : "xl",
                 data : record,
                 component : "displayPNR"
             }
+            this.$root.$emit('showModal',modalDiscription);   
+        },
+        customizeList() {
 
+            let fields = Object.keys(this.records[0])
+            fields = fields.concat(Object.keys(this.records[0].responses))
+
+            let modalDiscription = {
+                title : "Configure Columns - My pending tasks",
+                size : "xxl",
+                data : fields,
+                component : "customizePNR"
+            }
             this.$root.$emit('showModal',modalDiscription);   
         }
     },  
@@ -61,7 +72,7 @@ Vue.component('pnrModule', {
     <div class="mt-5">
         <h1 class="text-center">Patterns and Responses</h1>
         <div class="btn-group float-end m-3">
-            <button type="button" class="btn btn-primary m-1">Customize</button>
+            <button type="button" class="btn btn-primary m-1" @click="customizeList()">Customize</button>
             <button type="button" class="btn btn-primary m-1">New PNR</button>
         </div>
         <table class="table table-hover">
