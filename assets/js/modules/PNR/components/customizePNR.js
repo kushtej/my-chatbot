@@ -1,10 +1,5 @@
 Vue.component('customizePNR', {
-    props: {
-        header: Object,
-        data: {
-            type: [Array, Object]
-        },
-    },
+
     data: function () {
         return {
             lists: [
@@ -49,12 +44,16 @@ Vue.component('customizePNR', {
     },
 
     created(){
-        // this.$root.$emit('customizePNR::list::Active',this.lists[0]);
+        this.$root.$on('customizePNR::list::Delete', (data) => this.deleteList(data));
     },
 
     methods: {
         activeList(list) {
             this.$root.$emit('customizePNR::list::Active',list);
+        },
+
+        deleteList(listid) {
+            this.lists = this.lists.filter(list => list.id !==listid)
         },
     },
 
@@ -87,7 +86,7 @@ Vue.component('customizePNR', {
                     </draggable>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-9 border-start border-5">
                 <configureLists></configureLists>
             </div>
         </div>
@@ -122,7 +121,7 @@ Vue.component('configureLists', {
         this.$root.$on('customizePNR::list::Active', (data) => {
 
             this.clearFields();
-
+            this.isListClicked = true;
             this.list = data;
             this.allFields = this.list.viewableFields.map(field => field.label);
             for(let field of this.list.viewableFields){
@@ -183,6 +182,20 @@ Vue.component('configureLists', {
             //Update the Apps informtaion  in the Menu
             // this.$root.$emit('vds::process::header::app::fields');
         },
+
+        deleteList(){
+            self = this
+            let modalDiscription = {
+                title : "Delete Conformation",
+                size : "sm",
+                onConform : function () {
+                    self.$root.$emit('customizePNR::list::Delete',self.list.id); 
+                    self.isListClicked = false;
+                    self.$root.$emit('bv::hide::modal','modal-multi-3');
+                }
+            }
+            this.$root.$emit('modal-multi-3',modalDiscription);   
+        },
     },
 
     beforeDestroy(){
@@ -190,12 +203,15 @@ Vue.component('configureLists', {
     },
 
     template: `
-
-            <div>
+        <div class="">
+            <div v-if="isListClicked">
                 <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0">
                     <h5 class="mb-0 p-2 pl-3 font-13 f-500">
                         <span>Choose Columns</span>
                         <span class="text-grey-4 ">(~max )</span>
+                        <span class="float-end mr-2"@click="deleteList">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </span>                    
                     </h5>
                 </div>
 
@@ -250,7 +266,10 @@ Vue.component('configureLists', {
                     </div>
                 </draggable>
             </div>
- 
+            <div v-else>
+                <h2 class="text-center">List will come here</h2>
+            </div>
+        </div>
     `,
 });
 

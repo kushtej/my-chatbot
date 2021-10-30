@@ -54,14 +54,9 @@ Vue.component('pnrModule', {
             this.$root.$emit('showModal',modalDiscription);   
         },
         customizeList() {
-
-            let fields = Object.keys(this.records[0])
-            fields = fields.concat(Object.keys(this.records[0].responses))
-
             let modalDiscription = {
                 title : "Configure Columns - My pending tasks",
                 size : "xxl",
-                data : fields,
                 component : "customizePNR"
             }
             this.$root.$emit('showModal',modalDiscription);   

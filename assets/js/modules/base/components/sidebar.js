@@ -97,6 +97,8 @@ Vue.component("headers", {
             <pnrModule :module="module"></pnrModule>
         </div>
       </div>
+      <deleteConformation :module="module"></deleteConformation>
+
       <modal :module="module"></modal>
 
    </div>
