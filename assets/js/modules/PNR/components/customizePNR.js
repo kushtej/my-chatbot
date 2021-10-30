@@ -30,7 +30,7 @@ Vue.component('customizePNR', {
                     id: 2,
                     name: "Hindi PNR",
                     isFav: false,
-                    default: true,
+                    default: false,
                     viewableFields: [
                         { label: "tag", isDisplayed: true },
                         { label: "id", isDisplayed: true },
@@ -113,9 +113,6 @@ Vue.component('configureLists', {
     computed: {
         filteredItems() {
             const condition = new RegExp(this.search, "i");
-            console.log(condition)
-            console.log(this.selectedFields)
-            console.log(this.unselectedFields)
             return this.unselectedFields.filter(item => item.match(condition));
         }
     },
@@ -202,6 +199,7 @@ Vue.component('configureLists', {
                     </h5>
                 </div>
 
+                <h5>{{list.name}}</h5>
                 <div class="p-2 pl-3">
                     <div class="form-inline has-search pl-0 w-50">
                         <p class="control icon-right">
