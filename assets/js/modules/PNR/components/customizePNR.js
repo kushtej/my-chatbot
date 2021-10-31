@@ -8,6 +8,7 @@ Vue.component('customizePNR', {
                     name: "English PNR",
                     isFav: false,
                     default: true,
+
                     viewableFields: [
                         { label: "tag", isSelected: true },
                         { label: "id", isSelected: false },
@@ -112,6 +113,16 @@ Vue.component('configureLists', {
             isListClicked: false,
 
             nameState : null,
+
+
+            selected: null,
+            options: [
+                { value: null, text: 'Please select an option' },
+                { value: 'a', text: 'This is First option' },
+                { value: 'b', text: 'Selected Option' },
+                { value: { C: '3PO' }, text: 'This is an option with object value' },
+                { value: 'd', text: 'This one is disabled', disabled: true }
+            ]
         }
     },
 
@@ -165,7 +176,7 @@ Vue.component('configureLists', {
                 conditions: {
                     all: [],
                     any: []
-                }
+                },
             }
         },
 
@@ -230,106 +241,58 @@ Vue.component('configureLists', {
         console.log("hi")
     },
 
-    template: `
-        <div class="">
-            <div v-if="isListClicked">
-                <h3 class="text-center">{{list.name}}
-                    <span class="float-end pr-5" @click="deleteList">
-                        <i class="fa fa-trash m-1" aria-hidden="true"></i>
-                    </span>   
-                </h3>
-
+    template: 
+    `
+    <div class="">
+        <div v-if="isListClicked">
+            <h3 class="text-center">{{list.name}}
+                <span class="float-end pr-5" @click="deleteList">
+                    <i class="fa fa-trash m-1" aria-hidden="true"></i>
+                </span>
+            </h3>
 
             <form ref="form" @submit.stop.prevent="handleSubmit">
 
-                <!-- list INformation -->
+                <!-- list Information -->
                 <div>
-                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
-                        <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5" >
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0"
+                        style="background-color: #EDEFF2">
+                        <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5">
                             <span>List Information</span>
                         </h5>
                     </div>
 
                     <div class="row g-3 align-items-center mt-3">
-                        <!-- <div class="col-auto">
-                            <label for="listname" class="col-form-label">List Name :</label>
-                        </div>
-                        <div class="col-auto">
-                            <input type="listname" id="listname" class="form-control" aria-describedby="listname">
-                        </div>
-                        <div class="col-auto">
-                            <span id="passwordHelpInline" class="form-text">
-                                Must be 8-20 characters long.
-                            </span>
-                        </div> -->
-                        <div class="col-auto">
-                            <b-form-group
-                                label="listname"
-                                label-for="listname"
-                                invalid-feedback="Name is required"
-                                :state="nameState"
-                            >
-                        </div>
-                        <div class="col-auto">
-                            <b-form-input
-                                id="listname"
-                                v-model="list.name"
-                                :state="nameState"
-                                required
-                            ></b-form-input>
-                            </div>
-                            </b-form-group>
+                        <b-form-group label="List Name :" label-for="listname" invalid-feedback="Name is required"
+                            :state="nameState">
+                            <b-form-input id="listname" v-model="list.name" :state="nameState" required></b-form-input>
+                        </b-form-group>
                     </div>
-                    <div class="row g-3 align-items-center mt-1">
-                        <div class="col-auto">
-                            <label for="listname" class="col-form-label">Default Sort Column:</label>
-                        </div>
-                        <div class="col-auto">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                        </div>
-                        <div class="col-auto">
-                            <span id="passwordHelpInline" class="form-text">
-                                Must be 8-20 characters long.
-                            </span>
-                        </div>
+                    <!--<div class="row g-3 align-items-center mt-1">
+                    <div class="col-6">
+                        <label for="listname" class="col-form-label">Default Sort Column:</label>
+                        <b-form-select class="form-select" v-model="selected" :options="options"></b-form-select>
                     </div>
-
-                    <div class="row g-3 align-items-center mt-1">
-                        <div class="col-auto">
-                            <label for="listname" class="col-form-label">Default Sort Order:</label>
-                        </div>
-                        <div class="col-auto">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                        </div>
-                        <div class="col-auto">
-                            <span id="passwordHelpInline" class="form-text">
-                                Must be 8-20 characters long.
-                            </span>
-                        </div>
+                    <div class="col-6">
+                        <label for="listname" class="col-form-label">Default Sort Order::</label>
+                        <b-form-select class="form-select" v-model="selected" :options="options"></b-form-select>
                     </div>
+                </div>-->
                 </div>
-                
+
 
                 <!-- list Conditons -->
                 <div>
-                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0"
+                        style="background-color: #EDEFF2">
                         <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5">
                             <span>List Conditions</span>
                         </h5>
                     </div>
 
                     <div class="pl-2 pr-4">
-                        <div name="allConditionContainer" class="p-2"><span class="font-13 text-dark-0">All Conditions</span>
+                        <div name="allConditionContainer" class="p-2"><span class="font-13 text-dark-0">All
+                                Conditions</span>
                             &nbsp;(
                             <span>All conditions must be met</span>
                             )
@@ -339,7 +302,8 @@ Vue.component('configureLists', {
                                         class="fa fa-plus text-dark-0 font-12 mr-1"></span>Add Condition</button>
                             </div>
                         </div>
-                        <div name="anyConditionContainer" class="p-2"><span class="font-13 text-dark-0">Any Conditions</span>
+                        <div name="anyConditionContainer" class="p-2"><span class="font-13 text-dark-0">Any
+                                Conditions</span>
                             &nbsp;(
                             <span>At least one of the conditions must be met</span>
                             )
@@ -354,7 +318,8 @@ Vue.component('configureLists', {
 
                 <!-- Choose columns and order -->
                 <div>
-                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0"
+                        style="background-color: #EDEFF2">
                         <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5">
                             <span>Choose Columns</span>
                         </h5>
@@ -365,31 +330,26 @@ Vue.component('configureLists', {
                     <div class="p-2 pl-3">
                         <div class="form-inline has-search pl-0 w-50">
                             <p class="control icon-right">
-                            <input type="text" class="form-control w-100 h-100 rounded border-grey-1" 
-                                placeholder="Search labels"
-                                @input="onInput($event.target.value)" 
-                                @blur="isOptionsOpened = false" 
-                                @keyup.enter="selectField"
-                                @keyup.tab="selectField" 
-                                @keydown.down="onOptionsDown"
-                                @keydown.up="onOptionsUp" 
-                                @keyup.esc="isOpen = false"
-                                @click="toggleOptions" ref="dropdown" v-model="search" 
-                            />
+                                <input type="text" class="form-control w-100 h-100 rounded border-grey-1"
+                                    placeholder="Search labels" @input="onInput($event.target.value)"
+                                    @blur="isOptionsOpened = false" @keyup.enter="selectField" @keyup.tab="selectField"
+                                    @keydown.down="onOptionsDown" @keydown.up="onOptionsUp" @keyup.esc="isOpen = false"
+                                    @click="toggleOptions" ref="dropdown" v-model="search" />
                             </p>
 
                             <transition name="fade" mode="in-out">
                                 <ul v-show="isOptionsOpened" style="list-style-type: none;
-                                    padding:2px;
-                                    margin: 0;
-                                    border: 1px solid #dbdbdb;
-                                    border-radius: 0 0 3px 3px;
-                                    max-height: 200px;
-                                    overflow-y: auto;">
-                    
-                                    <div class="form-inline d-flex listColumns d-flex scrollbar scrollbar-default justify-content-around row mb-0 mr-1 bg-white pl-2">
-                                        <span v-for="(field,i) in filteredItems" @mouseenter="selected = i" @mousedown="selectField"
-                                            :class="{'selected': i === selected}">
+                                padding:2px;
+                                margin: 0;
+                                border: 1px solid #dbdbdb;
+                                border-radius: 0 0 3px 3px;
+                                max-height: 200px;
+                                overflow-y: auto;">
+
+                                    <div
+                                        class="form-inline d-flex listColumns d-flex scrollbar scrollbar-default justify-content-around row mb-0 mr-1 bg-white pl-2">
+                                        <span v-for="(field,i) in filteredItems" @mouseenter="selected = i"
+                                            @mousedown="selectField" :class="{'selected': i === selected}">
                                             <div class="listFieldOption py-1 my-1 bg-grey-hue-9 rounded-4 c-pointer pl-3"
                                                 style="width: 200px !important;">
                                                 <div class="">{{field}}</div>
@@ -398,9 +358,10 @@ Vue.component('configureLists', {
                                 </ul>
                             </transition>
                         </div>
-                    </div>  
+                    </div>
                 </div>
-                <draggable v-model="selectedFields" group="people" @start="drag=true" @end="drag=false" :options="{disabled : false}">
+                <draggable v-model="selectedFields" group="people" @start="drag=true" @end="drag=false"
+                    :options="{disabled : false}">
                     <div class="m-2 p-2 customize-pnr" v-for="element in selectedFields" :key="1">
                         <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid" />
@@ -411,13 +372,13 @@ Vue.component('configureLists', {
                         </span>
                     </div>
                 </draggable>
-
             </form>
-            </div>
-            <div v-else>
-                <h2 class="text-center">List will come here</h2>
-            </div>
         </div>
+        <div v-else>
+            <h2 class="text-center">List will come here</h2>
+        </div>
+    </div>
+
     `,
 });
 
