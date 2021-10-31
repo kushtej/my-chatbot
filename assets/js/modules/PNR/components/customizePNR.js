@@ -9,12 +9,12 @@ Vue.component('customizePNR', {
                     isFav: false,
                     default: true,
                     viewableFields: [
-                        { label: "tag", isDisplayed: true },
-                        { label: "id", isDisplayed: false },
-                        { label: "patterns", isDisplayed: true },
-                        { label: "message", isDisplayed: false },
-                        { label: "form", isDisplayed: true },
-                        { label: "relatedCRT", isDisplayed: false },
+                        { label: "tag", isSelected: true },
+                        { label: "id", isSelected: false },
+                        { label: "patterns", isSelected: true },
+                        { label: "message", isSelected: false },
+                        { label: "form", isSelected: true },
+                        { label: "relatedCRT", isSelected: false },
                     ],
                     conditions: {
                         all: [],
@@ -27,33 +27,37 @@ Vue.component('customizePNR', {
                     isFav: false,
                     default: false,
                     viewableFields: [
-                        { label: "tag", isDisplayed: true },
-                        { label: "id", isDisplayed: true },
-                        { label: "patterns", isDisplayed: true },
-                        { label: "message", isDisplayed: true },
-                        { label: "form", isDisplayed: true },
-                        { label: "relatedCRT", isDisplayed: true },
+                        { label: "tag", isSelected: true },
+                        { label: "id", isSelected: true },
+                        { label: "patterns", isSelected: true },
+                        { label: "message", isSelected: true },
+                        { label: "form", isSelected: true },
+                        { label: "relatedCRT", isSelected: true },
                     ],
                     conditions: {
                         all: [],
                         any: []
                     }
-                },],
+                },
+            ],
             active: 0,
         }
     },
 
-    created(){
+    created() {
         this.$root.$on('customizePNR::list::Delete', (data) => this.deleteList(data));
     },
 
     methods: {
+        createList() {
+            this.$root.$emit('customizePNR::list::Active', {});
+        },
         activeList(list) {
-            this.$root.$emit('customizePNR::list::Active',list);
+            this.$root.$emit('customizePNR::list::Active', list);
         },
 
         deleteList(listid) {
-            this.lists = this.lists.filter(list => list.id !==listid)
+            this.lists = this.lists.filter(list => list.id !== listid)
         },
     },
 
@@ -63,7 +67,7 @@ Vue.component('customizePNR', {
         <div class="row">
             <div class="col-3">
                 <h4 class="mb-2">Lists 
-                    <span><button type="button" class="btn btn-primary float-end m-1">+</button></span>
+                    <span><button type="button" class="btn btn-primary float-end m-1" @click="createList()">+</button></span>
                 </h4>
                 <input type="text" class="form-control" placeholder="Search Lists" name="email">
                 <div>
@@ -98,14 +102,16 @@ Vue.component('configureLists', {
 
     data: function () {
         return {
-            allFields : [],
+            allFields: [],
             list: {},
             selectedFields: [],
             unselectedFields: [],
             isOptionsOpened: false,
             selected: null,
             search: "",
-            isListClicked : false,
+            isListClicked: false,
+
+            nameState : null,
         }
     },
 
@@ -122,10 +128,12 @@ Vue.component('configureLists', {
 
             this.clearFields();
             this.isListClicked = true;
-            this.list = data;
+
+            this.list = (Object.keys(data).length !== 0) ? data : this.genreateNewEmptyList();
+
             this.allFields = this.list.viewableFields.map(field => field.label);
-            for(let field of this.list.viewableFields){
-                if(field.isDisplayed) {
+            for (let field of this.list.viewableFields) {
+                if (field.isSelected) {
                     this.selectedFields.push(field.label)
                 } else {
                     this.unselectedFields.push(field.label)
@@ -141,14 +149,34 @@ Vue.component('configureLists', {
             //
         },
 
+        genreateNewEmptyList() {
+            return {
+                name: "Untitled List",
+                isFav: false,
+                default: false,
+                viewableFields: [
+                    { label: "tag", isSelected: true },
+                    { label: "id", isSelected: false },
+                    { label: "patterns", isSelected: true },
+                    { label: "message", isSelected: true },
+                    { label: "form", isSelected: true },
+                    { label: "relatedCRT", isSelected: true },
+                ],
+                conditions: {
+                    all: [],
+                    any: []
+                }
+            }
+        },
+
         clearFields() {
             this.allFields = []
-            this.list= {}
-            this.selectedFields= []
-            this.unselectedFields= []
-            this.isOptionsOpened= false
-            this.selected= null
-            this.search= ""
+            this.list = {}
+            this.selectedFields = []
+            this.unselectedFields = []
+            this.isOptionsOpened = false
+            this.selected = null
+            this.search = ""
         },
 
         deSelectField(selectedModule) {
@@ -183,78 +211,196 @@ Vue.component('configureLists', {
             // this.$root.$emit('vds::process::header::app::fields');
         },
 
-        deleteList(){
+        deleteList() {
             self = this
             let modalDiscription = {
-                title : "Delete Conformation",
-                size : "sm",
-                onConform : function () {
-                    self.$root.$emit('customizePNR::list::Delete',self.list.id); 
+                title: "Delete Conformation",
+                size: "sm",
+                onConform: function () {
+                    self.$root.$emit('customizePNR::list::Delete', self.list.id);
                     self.isListClicked = false;
-                    self.$root.$emit('bv::hide::modal','modal-multi-3');
+                    self.$root.$emit('bv::hide::modal', 'modal-multi-3');
                 }
             }
-            this.$root.$emit('modal-multi-3',modalDiscription);   
+            this.$root.$emit('modal-multi-3', modalDiscription);
         },
     },
 
-    beforeDestroy(){
+    beforeDestroy() {
         console.log("hi")
     },
 
     template: `
         <div class="">
             <div v-if="isListClicked">
-                <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0">
-                    <h5 class="mb-0 p-2 pl-3 font-13 f-500">
-                        <span>Choose Columns</span>
-                        <span class="text-grey-4 ">(~max )</span>
-                        <span class="float-end mr-2"@click="deleteList">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </span>                    
-                    </h5>
+                <h3 class="text-center">{{list.name}}
+                    <span class="float-end pr-5" @click="deleteList">
+                        <i class="fa fa-trash m-1" aria-hidden="true"></i>
+                    </span>   
+                </h3>
+
+
+            <form ref="form" @submit.stop.prevent="handleSubmit">
+
+                <!-- list INformation -->
+                <div>
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
+                        <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5" >
+                            <span>List Information</span>
+                        </h5>
+                    </div>
+
+                    <div class="row g-3 align-items-center mt-3">
+                        <!-- <div class="col-auto">
+                            <label for="listname" class="col-form-label">List Name :</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="listname" id="listname" class="form-control" aria-describedby="listname">
+                        </div>
+                        <div class="col-auto">
+                            <span id="passwordHelpInline" class="form-text">
+                                Must be 8-20 characters long.
+                            </span>
+                        </div> -->
+                        <div class="col-auto">
+                            <b-form-group
+                                label="listname"
+                                label-for="listname"
+                                invalid-feedback="Name is required"
+                                :state="nameState"
+                            >
+                        </div>
+                        <div class="col-auto">
+                            <b-form-input
+                                id="listname"
+                                v-model="list.name"
+                                :state="nameState"
+                                required
+                            ></b-form-input>
+                            </div>
+                            </b-form-group>
+                    </div>
+                    <div class="row g-3 align-items-center mt-1">
+                        <div class="col-auto">
+                            <label for="listname" class="col-form-label">Default Sort Column:</label>
+                        </div>
+                        <div class="col-auto">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        </div>
+                        <div class="col-auto">
+                            <span id="passwordHelpInline" class="form-text">
+                                Must be 8-20 characters long.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 align-items-center mt-1">
+                        <div class="col-auto">
+                            <label for="listname" class="col-form-label">Default Sort Order:</label>
+                        </div>
+                        <div class="col-auto">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        </div>
+                        <div class="col-auto">
+                            <span id="passwordHelpInline" class="form-text">
+                                Must be 8-20 characters long.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <!-- list Conditons -->
+                <div>
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
+                        <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5">
+                            <span>List Conditions</span>
+                        </h5>
+                    </div>
+
+                    <div class="pl-2 pr-4">
+                        <div name="allConditionContainer" class="p-2"><span class="font-13 text-dark-0">All Conditions</span>
+                            &nbsp;(
+                            <span>All conditions must be met</span>
+                            )
+                            <div class="mt-2">
+                                <div class="d-flex flex-column"></div> <button id="addFilterCondition"
+                                    class="btn btn-primary bg-grey-hue-9 text-dark-0 shadow-none font-12"><span
+                                        class="fa fa-plus text-dark-0 font-12 mr-1"></span>Add Condition</button>
+                            </div>
+                        </div>
+                        <div name="anyConditionContainer" class="p-2"><span class="font-13 text-dark-0">Any Conditions</span>
+                            &nbsp;(
+                            <span>At least one of the conditions must be met</span>
+                            )
+                            <div class="mt-2">
+                                <div class="d-flex flex-column"></div> <button id="addFilterCondition"
+                                    class="btn btn-primary bg-grey-hue-9 text-dark-0 shadow-none font-12"><span
+                                        class="fa fa-plus text-dark-0 font-12 mr-1"></span>Add Condition</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <h5>{{list.name}}</h5>
-                <div class="p-2 pl-3">
-                    <div class="form-inline has-search pl-0 w-50">
-                        <p class="control icon-right">
-                        <input type="text" class="form-control w-100 h-100 rounded border-grey-1" 
-                            placeholder="Search labels"
-                            @input="onInput($event.target.value)" 
-                            @blur="isOptionsOpened = false" 
-                            @keyup.enter="selectField"
-                            @keyup.tab="selectField" 
-                            @keydown.down="onOptionsDown"
-                            @keydown.up="onOptionsUp" 
-                            @keyup.esc="isOpen = false"
-                            @click="toggleOptions" ref="dropdown" v-model="search" 
-                        />
-                        </p>
-
-                        <transition name="fade" mode="in-out">
-                            <ul v-show="isOptionsOpened" style="list-style-type: none;
-                                padding:2px;
-                                margin: 0;
-                                border: 1px solid #dbdbdb;
-                                border-radius: 0 0 3px 3px;
-                                max-height: 200px;
-                                overflow-y: auto;">
-                
-                                <div class="form-inline d-flex listColumns d-flex scrollbar scrollbar-default justify-content-around row mb-0 mr-1 bg-white pl-2">
-                                    <span v-for="(field,i) in filteredItems" @mouseenter="selected = i" @mousedown="selectField"
-                                        :class="{'selected': i === selected}">
-                                        <div class="listFieldOption py-1 my-1 bg-grey-hue-9 rounded-4 c-pointer pl-3"
-                                            style="width: 200px !important;">
-                                            <div class="">{{field}}</div>
-                                    </span>
-                                </div>
-                            </ul>
-                        </transition>
+                <!-- Choose columns and order -->
+                <div>
+                    <div class="d-flex align-items-center height-40px bg-grey-hue-11 border-0" style="background-color: #EDEFF2">
+                        <h5 class="mb-0 p-2 pl-3 font-13 f-500 mt-5">
+                            <span>Choose Columns</span>
+                        </h5>
                     </div>
-                </div>  
-          
-                <draggable v-model="selectedFields" group="people" @start="drag=true" @end="drag=false">
+
+                    <!--<input v-model="list.name" placeholder="List Name">-->
+
+                    <div class="p-2 pl-3">
+                        <div class="form-inline has-search pl-0 w-50">
+                            <p class="control icon-right">
+                            <input type="text" class="form-control w-100 h-100 rounded border-grey-1" 
+                                placeholder="Search labels"
+                                @input="onInput($event.target.value)" 
+                                @blur="isOptionsOpened = false" 
+                                @keyup.enter="selectField"
+                                @keyup.tab="selectField" 
+                                @keydown.down="onOptionsDown"
+                                @keydown.up="onOptionsUp" 
+                                @keyup.esc="isOpen = false"
+                                @click="toggleOptions" ref="dropdown" v-model="search" 
+                            />
+                            </p>
+
+                            <transition name="fade" mode="in-out">
+                                <ul v-show="isOptionsOpened" style="list-style-type: none;
+                                    padding:2px;
+                                    margin: 0;
+                                    border: 1px solid #dbdbdb;
+                                    border-radius: 0 0 3px 3px;
+                                    max-height: 200px;
+                                    overflow-y: auto;">
+                    
+                                    <div class="form-inline d-flex listColumns d-flex scrollbar scrollbar-default justify-content-around row mb-0 mr-1 bg-white pl-2">
+                                        <span v-for="(field,i) in filteredItems" @mouseenter="selected = i" @mousedown="selectField"
+                                            :class="{'selected': i === selected}">
+                                            <div class="listFieldOption py-1 my-1 bg-grey-hue-9 rounded-4 c-pointer pl-3"
+                                                style="width: 200px !important;">
+                                                <div class="">{{field}}</div>
+                                        </span>
+                                    </div>
+                                </ul>
+                            </transition>
+                        </div>
+                    </div>  
+                </div>
+                <draggable v-model="selectedFields" group="people" @start="drag=true" @end="drag=false" :options="{disabled : false}">
                     <div class="m-2 p-2 customize-pnr" v-for="element in selectedFields" :key="1">
                         <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#grid" />
@@ -265,6 +411,8 @@ Vue.component('configureLists', {
                         </span>
                     </div>
                 </draggable>
+
+            </form>
             </div>
             <div v-else>
                 <h2 class="text-center">List will come here</h2>

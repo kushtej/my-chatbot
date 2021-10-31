@@ -18,30 +18,42 @@ Vue.component('deleteConformation', {
         });
     },
 
-	methods: {
-        exit(){
-            this.$root.$emit('bv::hide::modal','modal-multi-3');
-        },
-	},
+	// methods: {
+    //     exit(){
+    //         this.$root.$emit('bv::hide::modal','modal-multi-3');
+    //     },
+	// },
 
   template: `
     <div>
         <b-modal id="modal-multi-3" 
             hide-backdrop content-class="shadow"  
-            hide-footer 
             :size=size  
-            :title=title 
-            ok-only
+            :title=title
+            ok-title="Delete"
+            ok-variant="danger"
+            @ok="onConform"
         >
             <p class="my-1">
                 All the List contents will be lost!
                 Are you Sure want to delete the List?
             </p>
-            <div class="mt-5">
+
+            <!--<div class="mt-5">
                 <hr/>
                 <b-button class="mr-2" v-b-modal.modal-prevent-closing variant="secondary" @click="exit()">Cancel</b-button>
                 <b-button class="mr-2" v-b-modal.modal-prevent-closing variant="danger" @click="onConform" >Delete</b-button>      
-            </div>
+            </div>-->
+
+
+            <!--<template #modal-footer="{ ok, cancel }">
+                <b-button size="sm" variant="secondary" @click="cancel()">
+                    Cancel
+                </b-button>
+                <b-button size="sm" variant="danger" @click="onConform">
+                    Delete
+                </b-button>
+            </template> -->
         </b-modal>
     </div>`,
 })

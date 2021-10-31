@@ -18,10 +18,18 @@ Vue.component('modal', {
             this.$root.$emit('bv::show::modal','showModal' );  
         });        
     },
+    methods: {
+        // handleOk(){
+        //     console.log("modal sumbit")
+        //     this.$root.$emit('bv::show::modal','showModal' );  
+
+        // },
+	},
     template : `
     <div class="modalContainer">
-        <b-modal id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title >
+        <b-modal id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title ok-title="Save" scrollable>
             <component :is="component" :data=data ></component>
         </b-modal>
     </div>`
 });
+// @ok.prevent="handleOk"
