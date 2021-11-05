@@ -51,7 +51,25 @@ Vue.component('customizePNR', {
 
     methods: {
         createList() {
-            this.$root.$emit('customizePNR::list::Active', {});
+            var newList = {
+                name: "",
+                isFav: false,
+                default: false,
+                viewableFields: [
+                    { label: "tag", isSelected: true },
+                    { label: "id", isSelected: false },
+                    { label: "patterns", isSelected: true },
+                    { label: "message", isSelected: true },
+                    { label: "form", isSelected: true },
+                    { label: "relatedCRT", isSelected: true },
+                ],
+                conditions: {
+                    all: [],
+                    any: []
+                },
+            }
+            this.lists.push(newList)
+            this.$root.$emit('customizePNR::list::Active', newList);
         },
         activeList(list) {
             this.$root.$emit('customizePNR::list::Active', list);
@@ -59,6 +77,9 @@ Vue.component('customizePNR', {
 
         deleteList(listid) {
             this.lists = this.lists.filter(list => list.id !== listid)
+        },
+        saveList(list){
+            //
         },
     },
 
@@ -92,7 +113,7 @@ Vue.component('customizePNR', {
                 </div>
             </div>
             <div class="col-9 border-start border-5">
-                <configureLists></configureLists>
+                <configureLists :lists=lists></configureLists>
             </div>
         </div>
     </div>
@@ -100,6 +121,9 @@ Vue.component('customizePNR', {
 });
 
 Vue.component('configureLists', {
+    props:{
+        lists:[]
+    },
 
     data: function () {
         return {
@@ -115,14 +139,14 @@ Vue.component('configureLists', {
             nameState : null,
 
 
-            selected: null,
-            options: [
-                { value: null, text: 'Please select an option' },
-                { value: 'a', text: 'This is First option' },
-                { value: 'b', text: 'Selected Option' },
-                { value: { C: '3PO' }, text: 'This is an option with object value' },
-                { value: 'd', text: 'This one is disabled', disabled: true }
-            ]
+            // selected: null,
+            // options: [
+            //     { value: null, text: 'Please select an option' },
+            //     { value: 'a', text: 'This is First option' },
+            //     { value: 'b', text: 'Selected Option' },
+            //     { value: { C: '3PO' }, text: 'This is an option with object value' },
+            //     { value: 'd', text: 'This one is disabled', disabled: true }
+            // ]
         }
     },
 
@@ -140,7 +164,9 @@ Vue.component('configureLists', {
             this.clearFields();
             this.isListClicked = true;
 
-            this.list = (Object.keys(data).length !== 0) ? data : this.genreateNewEmptyList();
+            // this.list = (Object.keys(data).length !== 0) ? data : this.genreateNewEmptyList();
+            this.list = data;
+
 
             this.allFields = this.list.viewableFields.map(field => field.label);
             for (let field of this.list.viewableFields) {
@@ -151,7 +177,7 @@ Vue.component('configureLists', {
                 }
             }
         });
-
+        this.$root.$on('saveList', this.saveList);
     },
 
     methods: {
@@ -160,25 +186,25 @@ Vue.component('configureLists', {
             //
         },
 
-        genreateNewEmptyList() {
-            return {
-                name: "Untitled List",
-                isFav: false,
-                default: false,
-                viewableFields: [
-                    { label: "tag", isSelected: true },
-                    { label: "id", isSelected: false },
-                    { label: "patterns", isSelected: true },
-                    { label: "message", isSelected: true },
-                    { label: "form", isSelected: true },
-                    { label: "relatedCRT", isSelected: true },
-                ],
-                conditions: {
-                    all: [],
-                    any: []
-                },
-            }
-        },
+        // genreateNewEmptyList() {
+        //     return {
+        //         name: "",
+        //         isFav: false,
+        //         default: false,
+        //         viewableFields: [
+        //             { label: "tag", isSelected: true },
+        //             { label: "id", isSelected: false },
+        //             { label: "patterns", isSelected: true },
+        //             { label: "message", isSelected: true },
+        //             { label: "form", isSelected: true },
+        //             { label: "relatedCRT", isSelected: true },
+        //         ],
+        //         conditions: {
+        //             all: [],
+        //             any: []
+        //         },
+        //     }
+        // },
 
         clearFields() {
             this.allFields = []
@@ -235,10 +261,24 @@ Vue.component('configureLists', {
             }
             this.$root.$emit('modal-multi-3', modalDiscription);
         },
+
+        checkFormValidity() {
+            const valid = this.$refs.todoform.checkValidity()
+            this.nameState = valid
+            return valid
+        },
+
+        saveList(){
+            if (!this.checkFormValidity()) {
+                return
+            }
+        },
+
     },
 
     beforeDestroy() {
         console.log("hi")
+        
     },
 
     template: 
@@ -251,7 +291,7 @@ Vue.component('configureLists', {
                 </span>
             </h3>
 
-            <form ref="form" @submit.stop.prevent="handleSubmit">
+            <form id="myForm" ref="todoform">
 
                 <!-- list Information -->
                 <div>
@@ -263,7 +303,7 @@ Vue.component('configureLists', {
                     </div>
 
                     <div class="row g-3 align-items-center mt-3">
-                        <b-form-group label="List Name :" label-for="listname" invalid-feedback="Name is required"
+                        <b-form-group label="List Name :" label-for="listname" invalid-feedback="List name is required"
                             :state="nameState">
                             <b-form-input id="listname" v-model="list.name" :state="nameState" required></b-form-input>
                         </b-form-group>

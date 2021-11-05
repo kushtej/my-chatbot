@@ -18,11 +18,17 @@ Vue.component('modal', {
             this.$root.$emit('bv::show::modal','showModal' );  
         });        
     },
+    methods: {
+
+        handleOk() {
+            this.$root.$emit('saveList');  
+        },
+    },
 
     template : `
     <div class="modalContainer">
-        <b-modal id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title ok-title="Save"  scrollable>
-            <component :is="component" :data=data ></component>
+        <b-modal id="showModal" hide-backdrop content-class="shadow" :size=size  :title=title ok-title="Save" @ok.prevent="handleOk" scrollable>
+            <component :is="component" ref="a" :data=data ></component>
         </b-modal>
     </div>`
 });
