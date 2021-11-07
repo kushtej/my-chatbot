@@ -241,7 +241,9 @@ Vue.component('configureLists', {
                 onConform: function () {
                     self.$root.$emit('customizePNR::list::Delete', self.list.id);
                     self.$root.$emit('trigger::notification', {
-                        type : "success",
+                        type : "info",
+                        delay: 2000,
+                        // autohide : false,
                         message : "List successfully deleted!"
                     });
                     self.isListClicked = false;
@@ -261,6 +263,12 @@ Vue.component('configureLists', {
             if (!this.checkFormValidity()) {
                 return
             }
+            this.$root.$emit('trigger::notification', {
+                type : "success",
+                delay: 2000,
+                // autohide : false,
+                message : "List successfully created!"
+            });
         },
 
     },
@@ -276,7 +284,7 @@ Vue.component('configureLists', {
         <div v-if="isListClicked">
             <h3 class="text-center">{{list.name}}
                 <span class="float-end pr-5" @click="deleteList">
-                    <i class="fa fa-trash m-1" aria-hidden="true"></i>
+                    <i class="fal fa-trash-alt text-danger m-1" aria-hidden="true"></i>
                 </span>
             </h3>
 
@@ -397,7 +405,7 @@ Vue.component('configureLists', {
                         </svg>
                         {{element}}
                         <span class="float-end mr-2">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            <i class="fal fa-trash-alt text-danger" aria-hidden="true"></i>
                         </span>
                     </div>
                 </draggable>

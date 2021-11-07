@@ -102,8 +102,8 @@ Vue.component('pnrModule', {
                     <td></td>
                     <td></td>
                     <td>
-                        <i class="m-1 fas fa-pencil-alt" aria-hidden="true" v-b-modal></i>
-                        <i class="m-1 fa fa-trash" aria-hidden="true" v-b-modal></i>
+                        <i class="m-1 fal fa-edit" aria-hidden="true" v-b-modal></i>
+                        <i class="m-1 fal fa-trash-alt" aria-hidden="true" v-b-modal></i>
                     </td>
                 </tr>
             </tbody>

@@ -29,9 +29,10 @@ Vue.component("headers", {
          <div class="col-md-auto">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                  <svg class="bi me-2" width="40" height="32">
+                  <!--<svg class="bi me-2" width="40" height="32">
                      <use xlink:href="#bootstrap" />
-                  </svg>
+                  </svg> -->
+                  <i class="m-1 far fa-tachometer-alt-fast"></i>
                   <span class="fs-4">Dashboard</span>
                </a>
                <hr>
@@ -42,9 +43,7 @@ Vue.component("headers", {
                         dashboard = true, 
                         pnr = false"              
                      >
-                        <svg class="bi me-2" width="16" height="16">
-                           <use xlink:href="#speedometer2" />
-                        </svg>
+                        <i class="mr-2 far fa-tachometer-alt-fast"></i>
                         Dashboard
                      </a>
                   </li>
@@ -54,17 +53,13 @@ Vue.component("headers", {
                         dashboard = false, 
                         pnr = true"                  
                      >
-                        <svg class="bi me-2" width="16" height="16">
-                           <use xlink:href="#table" />
-                        </svg>
+                        <i class="fal fa-table mr-1"></i>
                         Add Patterns
                      </a>
                   </li>
                   <li>
                      <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16">
-                           <use xlink:href="#grid" />
-                        </svg>
+                     <i class="far fa-border-all"></i>
                         View Transcripts
                      </a>
                   </li>
