@@ -9,7 +9,7 @@ Vue.component("headers", {
 	},
 
 	created() {
-		//
+      //
 	},
 
 	methods: {
@@ -99,6 +99,7 @@ Vue.component("headers", {
          </div>
          <deleteConformation :module="module"></deleteConformation>
          <modal :module="module"></modal>
+         <notification :module="module"></notification>
       </div>
    </div>
    `,

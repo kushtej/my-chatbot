@@ -47,6 +47,12 @@ Vue.component('customizePNR', {
 
     created() {
         this.$root.$on('customizePNR::list::Delete', (data) => this.deleteList(data));
+        // this.$bvToast.toast(`This is toast number`, {
+        //     title: 'BootstrapVue Toast',
+        //     autoHideDelay: 50000,
+        //     appendToast: true
+        //   });
+          console.log("this ran")
     },
 
     methods: {
@@ -160,7 +166,6 @@ Vue.component('configureLists', {
     created: function () {
 
         this.$root.$on('customizePNR::list::Active', (data) => {
-
             this.clearFields();
             this.isListClicked = true;
 
@@ -185,26 +190,6 @@ Vue.component('configureLists', {
         updateMenuStructure() {
             //
         },
-
-        // genreateNewEmptyList() {
-        //     return {
-        //         name: "",
-        //         isFav: false,
-        //         default: false,
-        //         viewableFields: [
-        //             { label: "tag", isSelected: true },
-        //             { label: "id", isSelected: false },
-        //             { label: "patterns", isSelected: true },
-        //             { label: "message", isSelected: true },
-        //             { label: "form", isSelected: true },
-        //             { label: "relatedCRT", isSelected: true },
-        //         ],
-        //         conditions: {
-        //             all: [],
-        //             any: []
-        //         },
-        //     }
-        // },
 
         clearFields() {
             this.allFields = []
@@ -255,6 +240,10 @@ Vue.component('configureLists', {
                 size: "sm",
                 onConform: function () {
                     self.$root.$emit('customizePNR::list::Delete', self.list.id);
+                    self.$root.$emit('trigger::notification', {
+                        type : "success",
+                        message : "List successfully deleted!"
+                    });
                     self.isListClicked = false;
                     self.$root.$emit('bv::hide::modal', 'modal-multi-3');
                 }
