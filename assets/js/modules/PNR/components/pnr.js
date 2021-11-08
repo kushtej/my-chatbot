@@ -68,8 +68,10 @@ Vue.component('pnrModule', {
         <h1 class="text-center">Patterns and Responses</h1>
         <div class="btn-group float-end m-3">
             <button type="button" class="btn btn-primary m-1" @click="customizeList()">Customize</button>
-            <button type="button" class="btn btn-primary m-1">New PNR</button>
+            <!--<a type="button" class="btn btn-primary m-1">New PNR</button> -->
+            <router-link to="/foo" class="btn btn-primary m-1">Go to Foo</router-link>
         </div>
+        <router-view></router-view>
         <table class="table table-hover">
             <thead>
                 <tr>

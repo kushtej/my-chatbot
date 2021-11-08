@@ -103,9 +103,7 @@ Vue.component('customizePNR', {
                     <draggable v-model="lists" group="lists" @start="drag=true" @end="drag=false">
                         <div class="m-2 p-2" style="background-color: #e2e3e5;" v-for="list in lists" :key="list.id">
                             <div @mouseover="active = list.id" @mouseleave="active = 0" @click="activeList(list)">
-                                <svg class="bi me-2" width="16" height="16">
-                                    <use xlink:href="#grid" />
-                                </svg>
+                                <i class="far fa-border-all"></i>
                                 <span class="ml-2"v-show="active === list.id">
                                     <i class="fa fa-star" style="color : gold" aria-hidden="true"></i>
                                 </span>
@@ -400,9 +398,7 @@ Vue.component('configureLists', {
                 <draggable v-model="selectedFields" group="people" @start="drag=true" @end="drag=false"
                     :options="{disabled : false}">
                     <div class="m-2 p-2 customize-pnr" v-for="element in selectedFields" :key="1">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid" />
-                        </svg>
+                        <i class="far fa-border-all"></i>
                         {{element}}
                         <span class="float-end mr-2">
                             <i class="fal fa-trash-alt text-danger" aria-hidden="true"></i>
