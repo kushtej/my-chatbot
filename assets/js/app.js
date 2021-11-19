@@ -10,20 +10,25 @@ const Bar = { template: '<div>bar</div>' }
 // Vue.extend(), or just a component options object.
 // We'll talk about nested routes later.
 const routes = [
-  { path: '/dashboard', component: addPNR },
-  { path: '/pnr', component: addPNR },
-  { path: '/viewtranscripts', component: addPNR },
+  { path: '/',redirect: '/dashboard' },
 
-  { path: '/add/new', component: addPNR },
+  { path: '/dashboard',name:"dashboard", component: dashboard },
+  { path: '/pnr',name:"pnr", component: PNR },
+  { path: '/viewtranscripts',name:"transcripts", component: Bar },
 
-
+  // { path: '/add/new', component: addPNR },
 ]
 
 // 3. Create the router instance and pass the `routes` option
 // You can pass in additional options here, but let's
 // keep it simple for now.
 const router = new VueRouter({
-  routes
+  // mode: 'history',
+  hash: false,
+
+  routes,
+  linkActiveClass: "active", // active class for non-exact links.
+  linkExactActiveClass: "active" // active class for *exact* links.
 });
 
 new Vue({

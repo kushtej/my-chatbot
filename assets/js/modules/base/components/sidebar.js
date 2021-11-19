@@ -1,63 +1,44 @@
 Vue.component("headers", {
-	data: function () {
-		return {
-			module: 'pnr',
-			dashboard: false,
-			pnr: true,
-			transcripts: false,
-		}
-	},
+	// data: function () {
+	// 	return {
+	// 		module: 'pnr',
+	// 	}
+	// },
 
-	methods: {
-		moduleActive: function (event) {
-			if (this.module !== event.target.name) {
-				$('.nav a').removeClass('active');
-				event.target.classList.toggle('active')
-				this.module = event.target.name
-			}
-		},
-	},
+
+   computed: {
+      currentRouteName() {
+         return this.$router.currentRoute.name;
+      }
+   },
+
+
 
 	template:
 		`
     <div class="main-container">
-    <deleteConformation :module="module"></deleteConformation>
-    <modal :module="module"></modal>
-    <notification :module="module"></notification>
+    <deleteConformation></deleteConformation>
+    <modal ></modal>
+    <notification></notification>
       <div class="row">
          <div class="col-md-auto">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-               <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+
+               <router-link to="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                   <i class="m-1 far fa-tachometer-alt-fast"></i>
                   <span class="fs-4">Dashboard</span>
-               </a>
+               </router-link>
+
                <hr>
                <ul class="nav nav-pills flex-column mb-auto">
                   <li>
-                     <a class="nav-link link-dark"  name="dashboard"
-                     v-on:click="moduleActive($event),
-                        dashboard = true, 
-                        pnr = false"              
-                     >
-                        <i class="mr-2 far fa-tachometer-alt-fast"></i>
-                        Dashboard
-                     </a>
-                  </li>
+                     <router-link to="/dashboard" class="nav-link link-dark"><i class="mr-2 far fa-tachometer-alt-fast"></i>Dashboard</router-link>
+                  </li> 
                   <li class="nav-item">
-                     <a class="nav-link link-dark active" aria-current="page" name="pnr"
-                     v-on:click="moduleActive($event),
-                        dashboard = false, 
-                        pnr = true"                  
-                     >
-                        <i class="fal fa-table mr-1"></i>
-                        Add Patterns
-                     </a>
+                     <router-link to="/pnr" class="nav-link link-dark"> <i class="fal fa-table mr-1"></i>Add Patterns</router-link>
                   </li>
                   <li>
-                     <a href="#" class="nav-link link-dark">
-                     <i class="far fa-border-all"></i>
-                        View Transcripts
-                     </a>
+                     <router-link to="/transcripts" class="nav-link link-dark"> <i class="far fa-border-all mr-1"></i>View Transcripts</router-link>
                   </li>
                </ul>
                <hr>
@@ -79,14 +60,7 @@ Vue.component("headers", {
             </div>
          </div>
          <div class="col mt-3">
-
-         <div v-if="dashboard">
-            <dashboardModule :module="module"></dashboardModule>
-         </div>
-
-         <div v-if="pnr">
-               <pnrModule :module="module"></pnrModule>
-         </div>
+            <router-view></router-view>
          </div>
       </div>
    </div>

@@ -1,4 +1,4 @@
-Vue.component('pnrModule', {
+const PNR = Vue.component('pnrModule', {
     data: function () {
         return {
             records: [
@@ -69,9 +69,10 @@ Vue.component('pnrModule', {
         <div class="btn-group float-end m-3">
             <button type="button" class="btn btn-primary m-1" @click="customizeList()">Customize</button>
             <!--<a type="button" class="btn btn-primary m-1">New PNR</button> -->
-            <router-link to="/add/new" class="btn btn-primary m-1">Go to Foo</router-link>
+            <router-link to="/add/new" class="btn btn-primary m-1"> New PNR</router-link>
+
         </div>
-        <router-view></router-view>
+        <!--<router-view></router-view>-->
         <table class="table table-hover">
             <thead>
                 <tr>

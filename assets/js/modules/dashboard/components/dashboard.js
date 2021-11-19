@@ -1,5 +1,7 @@
-Vue.component('dashboardModule', {
-
+var dashboard = Vue.component('dashboard', {
+    created(){
+        // console.log("dgfffff")
+    },
     template : 
     `
     <div class="mt-5">
