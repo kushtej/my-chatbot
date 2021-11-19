@@ -271,11 +271,6 @@ Vue.component('configureLists', {
 
     },
 
-    beforeDestroy() {
-        console.log("hi")
-        
-    },
-
     template: 
     `
     <div class="">

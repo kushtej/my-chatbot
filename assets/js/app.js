@@ -11,7 +11,6 @@ const Bar = { template: '<div>bar</div>' }
 // We'll talk about nested routes later.
 const routes = [
   { path: '/foo', component: addPNR },
-  { path: '/bar', component: Bar }
 ]
 
 // 3. Create the router instance and pass the `routes` option

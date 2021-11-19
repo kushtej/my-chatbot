@@ -9,7 +9,42 @@ Vue.component("headers", {
 	},
 
 	created() {
-      //
+      console.log("hi")
+      self = this
+      setTimeout(() => {
+         this.$root.$emit('trigger::notification', {
+            type : "success",
+            delay: 2000,
+            // autohide : false,
+            message : "a"
+        });
+
+         this.$root.$emit('trigger::notification', {
+            type : "success",
+            delay: 20000,
+            // autohide : false,
+            message : "b"
+         });
+      }, 0);
+
+
+      setTimeout(() => {
+         this.$root.$emit('trigger::notification', {
+            type : "",
+            delay: 2000,
+            // autohide : false,
+            message : "c"
+        });
+
+         this.$root.$emit('trigger::notification', {
+            type : "error",
+            delay: 4000,
+            // autohide : false,
+            message : "d"
+         });
+      }, 5000);
+
+
 	},
 
 	methods: {
@@ -21,17 +56,17 @@ Vue.component("headers", {
 			}
 		},
 	},
+
 	template:
 		`
-    
     <div class="main-container">
+    <deleteConformation :module="module"></deleteConformation>
+    <modal :module="module"></modal>
+    <notification :module="module"></notification>
       <div class="row">
          <div class="col-md-auto">
             <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                  <!--<svg class="bi me-2" width="40" height="32">
-                     <use xlink:href="#bootstrap" />
-                  </svg> -->
                   <i class="m-1 far fa-tachometer-alt-fast"></i>
                   <span class="fs-4">Dashboard</span>
                </a>
@@ -92,9 +127,6 @@ Vue.component("headers", {
                <pnrModule :module="module"></pnrModule>
          </div>
          </div>
-         <deleteConformation :module="module"></deleteConformation>
-         <modal :module="module"></modal>
-         <notification :module="module"></notification>
       </div>
    </div>
    `,
