@@ -8,45 +8,6 @@ Vue.component("headers", {
 		}
 	},
 
-	created() {
-      console.log("hi")
-      self = this
-      setTimeout(() => {
-         this.$root.$emit('trigger::notification', {
-            type : "success",
-            delay: 2000,
-            // autohide : false,
-            message : "a"
-        });
-
-         this.$root.$emit('trigger::notification', {
-            type : "success",
-            delay: 20000,
-            // autohide : false,
-            message : "b"
-         });
-      }, 0);
-
-
-      setTimeout(() => {
-         this.$root.$emit('trigger::notification', {
-            type : "",
-            delay: 2000,
-            // autohide : false,
-            message : "c"
-        });
-
-         this.$root.$emit('trigger::notification', {
-            type : "error",
-            delay: 4000,
-            // autohide : false,
-            message : "d"
-         });
-      }, 5000);
-
-
-	},
-
 	methods: {
 		moduleActive: function (event) {
 			if (this.module !== event.target.name) {

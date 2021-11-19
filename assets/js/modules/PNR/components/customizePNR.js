@@ -241,7 +241,6 @@ Vue.component('configureLists', {
                     self.$root.$emit('trigger::notification', {
                         type : "info",
                         delay: 2000,
-                        // autohide : false,
                         message : "List successfully deleted!"
                     });
                     self.isListClicked = false;
@@ -264,7 +263,6 @@ Vue.component('configureLists', {
             this.$root.$emit('trigger::notification', {
                 type : "success",
                 delay: 2000,
-                // autohide : false,
                 message : "List successfully created!"
             });
         },

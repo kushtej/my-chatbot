@@ -10,7 +10,13 @@ const Bar = { template: '<div>bar</div>' }
 // Vue.extend(), or just a component options object.
 // We'll talk about nested routes later.
 const routes = [
-  { path: '/foo', component: addPNR },
+  { path: '/dashboard', component: addPNR },
+  { path: '/pnr', component: addPNR },
+  { path: '/viewtranscripts', component: addPNR },
+
+  { path: '/add/new', component: addPNR },
+
+
 ]
 
 // 3. Create the router instance and pass the `routes` option
