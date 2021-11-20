@@ -1,9 +1,9 @@
 Vue.component("headers", {
-	// data: function () {
-	// 	return {
-	// 		module: 'pnr',
-	// 	}
-	// },
+	data: function () {
+		return {
+			module: this.$router.currentRoute.name,
+		}
+	},
 
 
    computed: {
@@ -18,24 +18,23 @@ Vue.component("headers", {
 		`
     <div class="main-container">
     <deleteConformation></deleteConformation>
-    <modal ></modal>
+    <modal></modal>
     <notification></notification>
       <div class="row">
          <div class="col-md-auto">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
-
+            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;height: 100vh;">
                <router-link to="/dashboard" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                  <i class="m-1 far fa-tachometer-alt-fast"></i>
-                  <span class="fs-4">Dashboard</span>
+               <i class="fad fa-bars"></i>
+               <span class="m-2 fs-4">Dashboard</span>
                </router-link>
 
                <hr>
                <ul class="nav nav-pills flex-column mb-auto">
                   <li>
-                     <router-link to="/dashboard" class="nav-link link-dark"><i class="mr-2 far fa-tachometer-alt-fast"></i>Dashboard</router-link>
+                     <router-link to="/dashboard" class="nav-link link-dark"><i class="far fa-tachometer-alt-fast mr-2"></i>Dashboard</router-link>
                   </li> 
                   <li class="nav-item">
-                     <router-link to="/pnr" class="nav-link link-dark"> <i class="fal fa-table mr-1"></i>Add Patterns</router-link>
+                     <router-link to="/pnr" class="nav-link link-dark"> <i class="fal fa-table"></i>Add Patterns</router-link>
                   </li>
                   <li>
                      <router-link to="/transcripts" class="nav-link link-dark"> <i class="far fa-border-all mr-1"></i>View Transcripts</router-link>

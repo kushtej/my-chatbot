@@ -3,6 +3,7 @@ const PNR = Vue.component('pnrModule', {
         return {
             records: [
                 {
+                    "module":"Introduction",
                     "tag": "bangalore_introduction",
                     "id": 68,
                     "patterns": [
@@ -23,6 +24,7 @@ const PNR = Vue.component('pnrModule', {
                     }
                 },
                 {
+                    "module":"Introduction",
                     "tag": "famous_tourist_spots",
                     "id": 69,
                     "patterns": [
@@ -68,7 +70,6 @@ const PNR = Vue.component('pnrModule', {
         <h1 class="text-center">Patterns and Responses</h1>
         <div class="btn-group float-end m-3">
             <button type="button" class="btn btn-primary m-1" @click="customizeList()">Customize</button>
-            <!--<a type="button" class="btn btn-primary m-1">New PNR</button> -->
             <router-link to="/add/new" class="btn btn-primary m-1"> New PNR</router-link>
 
         </div>
@@ -76,7 +77,7 @@ const PNR = Vue.component('pnrModule', {
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Module</th>
                     <th scope="col">Tag</th>
                     <th scope="col">Pattern</th>
                     <th scope="col">Responses</th>
@@ -85,7 +86,9 @@ const PNR = Vue.component('pnrModule', {
             </thead>
             <thead>
                 <tr>
-                    <th scope="col"></th>
+                    <th scope="col"> <input type="text" id="inputPassword6" class="form-control"
+                            aria-describedby="passwordHelpInline">
+                    </th>
                     <th scope="col"> <input type="text" id="inputPassword6" class="form-control"
                             aria-describedby="passwordHelpInline">
                     </th>
@@ -100,7 +103,8 @@ const PNR = Vue.component('pnrModule', {
             </thead>
             <tbody>
                 <tr v-for="record in records" :key="record.id" @click="showRecord(record)">
-                    <th scope="row">{{ record.id }}</th>
+                    <!--<th scope="row">{{ record.id }}</th>-->
+                    <th>{{ record.module }}</th>
                     <td>{{ record.tag }}</td>
                     <td></td>
                     <td></td>
